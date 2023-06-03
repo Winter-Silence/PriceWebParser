@@ -6,9 +6,10 @@
   <% @product_parser_rules.each do |product_parser_rule| %>
     <%= render product_parser_rule %>
     <p>
+      <p><%= product_parser_rule.url %></p>
       <%= link_to "Show this product parser rule", product_parser_rule %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New product parser rule", new_product_parser_rule_path %>
+<%= link_to "New product parser rule", new_product_product_parser_rule_path(@product) %>

@@ -2,16 +2,19 @@
 
 class ProductParserRulesController < ApplicationController
   before_action :set_product_parser_rule, only: %i[show edit update destroy]
-  before_action :set_product
+  before_action :set_product, only: %i[new create]
 
 
   # GET /product_parser_rules or /product_parser_rules.json
   def index
-    @product_parser_rules = ProductParserRule.all
+    @product = Product.eager_load(:product_parser_rules).find_by(id: params[:product_id])
+    @product_parser_rules = @product.product_parser_rules
   end
 
   # GET /product_parser_rules/1 or /product_parser_rules/1.json
-  def show; end
+  def show
+    @product = @product_parser_rules.product
+  end
 
   # GET /products/:product_id/product_parser_rules/new
   def new
@@ -23,7 +26,6 @@ class ProductParserRulesController < ApplicationController
 
   # POST /products/:product_id/product_parser_rules
   def create
-    pp 'sfsdfafd'
     @product_parser_rule = @product.product_parser_rules.build(product_parser_rule_params)
 
     respond_to do |format|
@@ -63,7 +65,8 @@ class ProductParserRulesController < ApplicationController
   private
 
   def set_product
-    @product = Product.find(params[:product_parser_rule][:product_id])
+    # TODO: доработать
+    @product = Product.find(params.include?(:product_parser_rule) ? params[:product_parser_rule][:product_id] : params[:product_id])
   end
 
   # Use callbacks to share common setup or constraints between actions.
