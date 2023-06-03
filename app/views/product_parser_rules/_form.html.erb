@@ -1,0 +1,30 @@
+<%= form_with(model: product_parser_rule) do |form| %>
+
+  <% if product_parser_rule.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(product_parser_rule.errors.count, "error") %> prohibited this product_parser_rule from being saved:</h2>
+
+      <ul>
+        <% product_parser_rule.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.hidden_field :product_id, value: @product.id %>
+
+  <div>
+    <%= form.label :url %>
+    <%= form.text_field :url %>
+  </div>
+
+  <div>
+    <%= form.label :selector %>
+    <%= form.text_field :selector %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Product parser rules</h1>
+
+<div id="product_parser_rules">
+  <% @product_parser_rules.each do |product_parser_rule| %>
+    <%= render product_parser_rule %>
+    <p>
+      <%= link_to "Show this product parser rule", product_parser_rule %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New product parser rule", new_product_parser_rule_path %>

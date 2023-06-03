@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @product %>
+
+<div>
+  <%= link_to "Edit this product", edit_product_path(@product) %> |
+  <%= link_to "Add rules", new_product_product_parser_rule_path(@product) %> |
+
+  <%= button_to "Destroy this product", @product, method: :delete %>
+</div>
