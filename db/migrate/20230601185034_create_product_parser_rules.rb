@@ -6,6 +6,8 @@ class CreateProductParserRules < ActiveRecord::Migration[7.0]
       t.belongs_to :product, foreign_key: true
       t.string :url, null: false
       t.string :selector, null: false
+      t.boolean :active, default: true
+      t.datetime :last_run
       t.timestamps
     end
   end

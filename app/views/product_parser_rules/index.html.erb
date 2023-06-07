@@ -4,9 +4,8 @@
 
 <div id="product_parser_rules">
   <% @product_parser_rules.each do |product_parser_rule| %>
-    <%= render product_parser_rule %>
     <p>
-      <p><%= product_parser_rule.url %></p>
+      <%= render product_parser_rule %>
       <%= link_to "Show this product parser rule", product_parser_rule %>
     </p>
   <% end %>

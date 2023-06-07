@@ -4,7 +4,6 @@ class ProductParserRulesController < ApplicationController
   before_action :set_product_parser_rule, only: %i[show edit update destroy]
   before_action :set_product, only: %i[new create]
 
-
   # GET /product_parser_rules or /product_parser_rules.json
   def index
     @product = Product.eager_load(:product_parser_rules).find_by(id: params[:product_id])
@@ -13,7 +12,7 @@ class ProductParserRulesController < ApplicationController
 
   # GET /product_parser_rules/1 or /product_parser_rules/1.json
   def show
-    @product = @product_parser_rules.product
+    @product = @product_parser_rule.product
   end
 
   # GET /products/:product_id/product_parser_rules/new
