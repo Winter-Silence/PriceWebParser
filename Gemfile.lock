@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/mina-deploy/mina.git
+  revision: f638fade466d3fbb9bf1331880c6bea756706e9a
+  specs:
+    mina (1.2.4)
+      rake
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -259,6 +266,7 @@ DEPENDENCIES
   debug
   jbuilder
   jsbundling-rails
+  mina!
   puma
   rails
   redis
