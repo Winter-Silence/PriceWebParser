@@ -69,12 +69,12 @@ task :setup do
     command %[mkdir -p tmp/pids]
     command %[chmod g+rx,u+rwx tmp/pids]
 
-    command %(
-      repo_host=`echo $repo | sed -e 's/.*@//g' -e 's/:.*//g'` &&
-      repo_port=`echo $repo | grep -o ':[0-9]*' | sed -e 's/://g'` &&
-      if [ -z "${repo_port}" ]; then repo_port=22; fi &&
-      ssh-keyscan -p $repo_port -H $repo_host >> ~/.ssh/known_hosts
-    )
+    # command %(
+    #   repo_host=`echo $repo | sed -e 's/.*@//g' -e 's/:.*//g'` &&
+    #   repo_port=`echo $repo | grep -o ':[0-9]*' | sed -e 's/://g'` &&
+    #   if [ -z "${repo_port}" ]; then repo_port=22; fi &&
+    #   ssh-keyscan -p $repo_port -H $repo_host >> ~/.ssh/known_hosts
+    # )
   end
 end
 
