@@ -113,6 +113,11 @@ GEM
       net-smtp
     marcel (1.0.2)
     method_source (1.0.0)
+    mina-ng-puma (1.4.0)
+      mina (~> 1.2.0)
+      puma (>= 2.13)
+    mina-sidekiq (1.1.0)
+      mina (>= 1.0.2)
     mina-version_managers (0.1.0)
       mina (>= 1.0.0)
     mini_mime (1.1.2)
@@ -269,6 +274,8 @@ DEPENDENCIES
   jbuilder
   jsbundling-rails
   mina!
+  mina-ng-puma
+  mina-sidekiq
   mina-version_managers
   puma
   rails

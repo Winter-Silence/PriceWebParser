@@ -3,6 +3,7 @@
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
+require 'mina_sidekiq/tasks'
 
 # Install https://github.com/mina-deploy/mina-version_managers for rbenv and rvm tasks
 require 'mina/version_managers/rbenv'  # for rbenv support. (https://rbenv.org)
