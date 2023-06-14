@@ -39,17 +39,12 @@ set :service_unit_name, 'sidekiq-roulette.service'
 # set :shared_dirs, fetch(:shared_dirs, []).push('public/assets')
 # set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml')
 
-set :shared_files, fetch(:shared_files, []).push('log', 'config/database.yml', 'config/secrets.yml')
+set :shared_files, fetch(:shared_files, []).push('log', 'config/database.yml', 'config/secrets.yml', 'db/production.sqlite3')
 
 # This task is the environment that is loaded for all remote run commands, such as
 # `mina deploy` or `mina rake`.
 task :remote_environment do
-  # If you're using rbenv, use this to load the rbenv environment.
-  # Be sure to commit your .ruby-version or .rbenv-version to your repository.
   invoke :'rbenv:load'
-
-  # For those using RVM, use this to load an RVM version@gemset.
-  # invoke :'rvm:use', 'ruby-2.5.3@default'
 end
 
 # Put any custom commands you need to run at setup
