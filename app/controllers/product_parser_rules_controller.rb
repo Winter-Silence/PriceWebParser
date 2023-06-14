@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProductParserRulesController < ApplicationController
-  before_action :set_product_parser_rule, only: %i[show edit update destroy]
+  before_action :set_product_parser_rule, only: %i[show edit update destroy check]
   before_action :set_product, only: %i[new create]
 
   # GET /product_parser_rules or /product_parser_rules.json
@@ -29,7 +29,10 @@ class ProductParserRulesController < ApplicationController
 
     respond_to do |format|
       if @product_parser_rule.save
-        format.html { redirect_to product_parser_rule_url(@product_parser_rule), notice: 'Product parser rule was successfully created.' }
+        format.html do
+          redirect_to product_parser_rule_url(@product_parser_rule),
+                      notice: 'Product parser rule was successfully created.'
+        end
         format.json { render :show, status: :created, location: @product_parser_rule }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -42,7 +45,10 @@ class ProductParserRulesController < ApplicationController
   def update
     respond_to do |format|
       if @product_parser_rule.update(product_parser_rule_params)
-        format.html { redirect_to product_parser_rule_url(@product_parser_rule), notice: 'Product parser rule was successfully updated.' }
+        format.html do
+          redirect_to product_parser_rule_url(@product_parser_rule),
+                      notice: 'Product parser rule was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @product_parser_rule }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -59,6 +65,14 @@ class ProductParserRulesController < ApplicationController
       format.html { redirect_to product_parser_rules_url, notice: 'Product parser rule was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  # POST /product_parser_rules/1/check
+  def check
+    parser = Parser::ProductPageParser.new(@product_parser_rule.url)
+    @data = parser.get_value(@product_parser_rule.selector)
+    Rails.logger.warn "!!!!!!!!!!! #{@product_parser_rule.selector}: #{@data}"
+    render turbo_stream: turbo_stream.append('parse-result', partial: 'check')
   end
 
   private

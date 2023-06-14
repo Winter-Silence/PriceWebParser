@@ -1,0 +1,14 @@
+.container
+  p style="color: green" = notice
+
+  = render @product_parser_rule
+
+  div
+    = link_to "Редактировать", edit_product_parser_rule_path(@product_parser_rule), class: 'btn btn-primary'
+
+    = link_to "Назад на список правил", product_product_parser_rules_path(@product), class: 'btn btn-secondary'
+
+    = button_to "Удалить правило", @product_parser_rule, method: :delete, class: 'btn btn-danger'
+
+    = turbo_frame_tag 'parse-result' do
+      = link_to 'Проверить', check_product_parser_rule_path(@product_parser_rule), method: :get, remote: true, class: 'btn btn-warning'

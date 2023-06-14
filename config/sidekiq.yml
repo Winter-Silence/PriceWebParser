@@ -2,3 +2,7 @@
 :queues:
   - default
   - mailers
+:schedules:
+  :schedule:
+    SinglePageParser:
+      every: '5m'

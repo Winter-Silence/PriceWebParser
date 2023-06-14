@@ -25,6 +25,8 @@ ActiveRecord::Schema[7.0].define(version: 20_230_601_185_555) do
     t.integer 'product_id'
     t.string 'url', null: false
     t.string 'selector', null: false
+    t.boolean 'active', default: true
+    t.datetime 'last_run'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['product_id'], name: 'index_product_parser_rules_on_product_id'

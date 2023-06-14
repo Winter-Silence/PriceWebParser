@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-# require 'lib/parser/product_page_parser'
-
-class ParserSinglePage < ApplicationJob
+class SinglePageRuleJob < ApplicationJob
   def perform(product, parser_rule)
     parser = Parser::ProductPageParser.new(parser_rule.url)
     price_value = parser.get_value(parser_rule.selector)

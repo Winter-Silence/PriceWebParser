@@ -3,4 +3,6 @@
 class ProductParserRule < ApplicationRecord
   belongs_to :product
   has_many :prices, dependent: :destroy
+
+  scope :outdated_rules, -> { where('last_run < ?', 30.minutes.ago) }
 end
