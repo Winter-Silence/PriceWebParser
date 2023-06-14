@@ -56,19 +56,19 @@ end
 # All paths in `shared_dirs` and `shared_paths` will be created on their own.
 task :setup do
   in_path(fetch(:shared_path)) do
-    command %[mkdir -p log]
-    command %[chmod g+rx,u+rwx log]
-
-    command %[mkdir -p config]
-    command %[chmod g+rx,u+rwx config]
-
-    command %[touch config/database.yml]
-    command %[touch config/secrets.yml]
-    command %[echo "-----> Be sure to edit 'config/database.yml' and 'secrets.yml'."]
-    command %[mkdir -p tmp/sockets]
-    command %[chmod g+rx,u+rwx tmp/sockets]
-    command %[mkdir -p tmp/pids]
-    command %[chmod g+rx,u+rwx tmp/pids]
+    # command %[mkdir -p log]
+    # command %[chmod g+rx,u+rwx log]
+    #
+    # command %[mkdir -p config]
+    # command %[chmod g+rx,u+rwx config]
+    #
+    # command %[touch config/database.yml]
+    # command %[touch config/secrets.yml]
+    # command %[echo "-----> Be sure to edit 'config/database.yml' and 'secrets.yml'."]
+    # command %[mkdir -p tmp/sockets]
+    # command %[chmod g+rx,u+rwx tmp/sockets]
+    # command %[mkdir -p tmp/pids]
+    # command %[chmod g+rx,u+rwx tmp/pids]
 
     # command %(
     #   repo_host=`echo $repo | sed -e 's/.*@//g' -e 's/:.*//g'` &&
