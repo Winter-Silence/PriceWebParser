@@ -20,7 +20,7 @@ set :domain, 'yury@5.188.119.172'
 set :port, 1693
 set :deploy_to, '/home/yury/PriceWebParser'
 set :repository, 'git@github.com:Winter-Silence/PriceWebParser.git'
-set :branch, 'master'
+set :branch, 'main'
 set :rbenv_path, '$HOME/.rbenv'
 set :bundler_path, '/home/yury/.rbenv/shims/bundler'
 set :init_system, :systemd
