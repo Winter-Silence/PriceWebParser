@@ -37,6 +37,7 @@ gem 'redis'
 gem 'sidekiq'
 gem 'slim'
 gem 'mina', github: 'mina-deploy/mina'
+gem 'mina-version_managers'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
