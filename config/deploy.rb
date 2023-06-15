@@ -4,6 +4,7 @@ require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
 require 'mina_sidekiq/tasks'
+require 'mina/puma'
 
 # Install https://github.com/mina-deploy/mina-version_managers for rbenv and rvm tasks
 require 'mina/version_managers/rbenv'  # for rbenv support. (https://rbenv.org)
@@ -26,7 +27,7 @@ set :bundler_path, '/home/yury/.rbenv/shims/bundler'
 set :init_system, :systemd
 set :service_unit_path, '/home/yury/.config/systemd/user'
 set :systemctl_command, 'systemctl --user'
-set :service_unit_name, 'sidekiq-roulette.service'
+set :service_unit_name, 'sidekiq-yury.service'
 
 # Optional settings:
 #   set :user, 'foobar'          # Username in the server to SSH to.
@@ -39,7 +40,7 @@ set :service_unit_name, 'sidekiq-roulette.service'
 # set :shared_dirs, fetch(:shared_dirs, []).push('public/assets')
 # set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml')
 
-set :shared_files, fetch(:shared_files, []).push('log', 'config/database.yml', 'config/secrets.yml', 'db/production.sqlite3')
+set :shared_files, fetch(:shared_files, []).push('log', 'config/database.yml', 'config/secrets.yml', 'db/production.sqlite3', 'tmp/pids', 'tmp/sockets')
 
 # This task is the environment that is loaded for all remote run commands, such as
 # `mina deploy` or `mina rake`.
@@ -82,7 +83,7 @@ namespace :puma do
   task :start do
     puma_port_option = "-p #{fetch(:puma_port)}" if set?(:puma_port)
 
-    comment "Starting Puma..."
+    comment 'Starting Puma...'
     command %[
       if [ -e "#{fetch(:puma_pid)}"  ] && kill -0 "$(cat #{fetch(:puma_pid)})" 2> /dev/null; then
         echo 'Puma is already running!';
@@ -142,6 +143,7 @@ task :deploy do
         # invoke :'sidekiq:restart'
         # command %{sv restart roulette_sidekiq}
       end
+      invoke :'puma:smart_restart'
     end
   end
 

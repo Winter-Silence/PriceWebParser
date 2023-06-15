@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/mina-deploy/mina.git
-  revision: f638fade466d3fbb9bf1331880c6bea756706e9a
-  specs:
-    mina (1.2.4)
-      rake
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -113,6 +106,8 @@ GEM
       net-smtp
     marcel (1.0.2)
     method_source (1.0.0)
+    mina (1.2.4)
+      rake
     mina-ng-puma (1.4.0)
       mina (~> 1.2.0)
       puma (>= 2.13)
@@ -273,7 +268,7 @@ DEPENDENCIES
   debug
   jbuilder
   jsbundling-rails
-  mina!
+  mina
   mina-ng-puma
   mina-sidekiq
   mina-version_managers
