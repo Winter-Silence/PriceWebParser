@@ -9,7 +9,7 @@ class SinglePageParserJob < ApplicationJob
     products.each do |product|
       product.product_parser_rules.each do |rule|
         rule.touch(:last_run)
-        parse_now ? SinglePageRuleJob.perform_now(product, rule) : SinglePageRuleJob.perform_later(product, rule)
+        parse_now ? SinglePageRuleJob.perform_now(product, rule) : SinglePageRuleJob.perform_async(product, rule)
       end
     end
   end
