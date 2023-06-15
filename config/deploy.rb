@@ -88,6 +88,7 @@ namespace :puma do
       if [ -e "#{fetch(:puma_pid)}"  ] && kill -0 "$(cat #{fetch(:puma_pid)})" 2> /dev/null; then
         echo 'Puma is already running!';
       else
+echo '#{fetch(:puma_root_path)} && #{fetch(:puma_cmd)} -qe #{fetch(:puma_env)} -C #{fetch(:puma_config)}'
         if [ -e "#{fetch(:puma_config)}" ]; then
           cd #{fetch(:puma_root_path)} && #{fetch(:puma_cmd)} -qe #{fetch(:puma_env)} -C #{fetch(:puma_config)}
         else
