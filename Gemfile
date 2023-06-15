@@ -36,7 +36,7 @@ gem 'jbuilder'
 gem 'redis'
 gem 'sidekiq'
 gem 'slim'
-gem 'mina'
+gem 'mina', github: 'mina-deploy/mina'
 gem 'mina-version_managers'
 gem 'mina-ng-puma', require: false
 gem 'mina-sidekiq', require: false
