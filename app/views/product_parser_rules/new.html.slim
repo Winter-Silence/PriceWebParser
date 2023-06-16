@@ -1,0 +1,8 @@
+h1 Новое правило для #{@product.title}
+
+= render "form", product_parser_rule: @product_parser_rule
+
+br
+
+div
+  = link_to "Список правил", product_parser_rules_path, class: 'btn btn-secondary'

@@ -6,7 +6,7 @@ class ProductParserRulesController < ApplicationController
 
   # GET /product_parser_rules or /product_parser_rules.json
   def index
-    @product = Product.eager_load(:product_parser_rules).find_by(id: params[:product_id])
+    @product = Product.eager_load(:product_parser_rules, :prices).find_by(id: params[:product_id])
     @product_parser_rules = @product.product_parser_rules
   end
 

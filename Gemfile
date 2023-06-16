@@ -33,6 +33,8 @@ gem 'jbuilder'
 gem 'redis'
 gem 'sidekiq'
 gem 'slim'
+gem 'simple_form'
+gem 'russian'
 gem 'mina', github: 'mina-deploy/mina'
 gem 'mina-version_managers'
 gem 'mina-ng-puma', require: false
@@ -53,8 +55,6 @@ gem 'bootsnap', require: false
 # Use Sass to process CSS
 # gem "sassc-rails"
 
-# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
 gem 'selenium-webdriver'
 gem 'webdriver-user-agent'
 

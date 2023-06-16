@@ -1,0 +1,10 @@
+table.table.table-bordered.table-striped.table-hover
+  thead
+    tr
+      th scope="col" Название
+      th scope="col" Минимальная цена
+  tbody
+    - @products.each do |product|
+      tr
+        td scope="col" = link_to product.title, product
+        td = product.lowest_price

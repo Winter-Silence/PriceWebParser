@@ -1,0 +1,13 @@
+p style="color: green" = notice
+
+= render @product
+
+div
+  = link_to "Изменить", edit_product_path(@product), class: "btn btn-success"
+  '  |
+  = link_to "Добавить правило", new_product_product_parser_rule_path(@product), class: "btn btn-primary"
+  '  |
+  = link_to "Список правил", product_product_parser_rules_path(@product), class: "btn btn-secondary"
+  '  |
+
+  = button_to "Удалить", @product, method: :delete, class: "btn btn-danger"

@@ -1,0 +1,10 @@
+h1 Изменение товара
+
+= render "form", product: @product
+
+br
+
+div
+  = link_to "Показать товар", @product, class: "btn btn-info"
+  '  |
+  = link_to "Список товаров", products_path, class: 'btn btn-secondary'
