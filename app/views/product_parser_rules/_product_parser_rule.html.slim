@@ -1,5 +1,5 @@
 div
   p= product_parser_rule.url
   p= product_parser_rule.selector
-  p Дата последней проверки: #{I18n.l(product_parser_rule.last_run.to_time, :format => '%e %b %Y %H:%M')}
+  p Дата последней проверки: #{I18n.l(product_parser_rule.last_run&.to_time, :format => '%e %b %Y %H:%M')}
   p Минимальная цена: #{product_parser_rule.lowest_price}
