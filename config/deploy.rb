@@ -131,7 +131,7 @@ task :deploy do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'sidekiq:restart'
+    # invoke :'sidekiq:restart'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
 
@@ -140,7 +140,7 @@ task :deploy do
         command %{mkdir -p tmp/}
         command %{touch tmp/restart.txt}
         # command %{whenever —set «path=`pwd`» -w}
-        # invoke :'sidekiq:restart'
+        invoke :'sidekiq:restart'
         # command %{sv restart roulette_sidekiq}
       end
       # invoke :'puma:stop'

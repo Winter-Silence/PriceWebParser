@@ -4,5 +4,5 @@
   - mailers
 :scheduler:
   :schedule:
-    SinglePageParser:
+    SinglePageParserJob:
       every: '5m'
