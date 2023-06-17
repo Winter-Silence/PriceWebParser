@@ -144,7 +144,7 @@ task :deploy do
         # command %{sv restart roulette_sidekiq}
       end
       # invoke :'puma:stop'
-      invoke :'puma:stop'
+      # invoke :'puma:stop'
     end
   end
 
