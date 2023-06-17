@@ -31,6 +31,7 @@ gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
 gem 'redis'
+gem 'redis-rails'
 gem 'sidekiq'
 gem 'slim'
 gem 'simple_form'
