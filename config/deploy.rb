@@ -7,7 +7,7 @@ require 'mina_sidekiq/tasks'
 require 'mina/puma'
 
 # Install https://github.com/mina-deploy/mina-version_managers for rbenv and rvm tasks
-require 'mina/version_managers/rbenv'  # for rbenv support. (https://rbenv.org)
+require 'mina/version_managers/rbenv' # for rbenv support. (https://rbenv.org)
 # require 'mina/version_managers/rvm'    # for rvm support. (https://rvm.io)
 
 # Basic settings:
@@ -40,7 +40,9 @@ set :service_unit_name, 'sidekiq-yury.service'
 # set :shared_dirs, fetch(:shared_dirs, []).push('public/assets')
 # set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml')
 
-set :shared_files, fetch(:shared_files, []).push('log', 'config/database.yml', 'config/secrets.yml', 'db/production.sqlite3', 'tmp/pids', 'tmp/sockets')
+set :shared_files,
+    fetch(:shared_files, []).push('log', 'config/database.yml', 'config/secrets.yml', 'db/production.sqlite3', 'tmp/pids',
+                                  'tmp/sockets')
 
 # This task is the environment that is loaded for all remote run commands, such as
 # `mina deploy` or `mina rake`.
@@ -137,8 +139,8 @@ task :deploy do
 
     on :launch do
       in_path(fetch(:current_path)) do
-        command %{mkdir -p tmp/}
-        command %{touch tmp/restart.txt}
+        command %(mkdir -p tmp/)
+        command %(touch tmp/restart.txt)
         # command %{whenever —set «path=`pwd`» -w}
         invoke :'sidekiq:restart'
         # command %{sv restart roulette_sidekiq}

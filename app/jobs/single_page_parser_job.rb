@@ -2,10 +2,9 @@
 
 class SinglePageParserJob < ApplicationJob
   def perform(parse_now: false)
-    current_time = Time.current
-    threshold_time = current_time - 30.minutes
-    products = Product.includes(product_parser_rules: :prices)
-                      .where(product_parser_rules: { last_run: ..threshold_time })
+    products = Product.left_outer_joins(product_parser_rules: :prices)
+                      .where(ProductParserRule.arel_table[:last_run].lt(30.minutes.ago)
+                                                                    .or(ProductParserRule.arel_table[:last_run].eq(nil)))
     products.each do |product|
       product.product_parser_rules.each do |rule|
         rule.touch(:last_run)

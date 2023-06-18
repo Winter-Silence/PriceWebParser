@@ -30,17 +30,17 @@ gem 'cssbundling-rails'
 gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
-gem 'redis'
-gem 'redis-rails'
-gem 'sidekiq'
-gem 'sidekiq-scheduler'
-gem 'slim'
-gem 'simple_form'
-gem 'russian'
 gem 'mina', github: 'mina-deploy/mina'
-gem 'mina-version_managers'
 gem 'mina-ng-puma', require: false
 gem 'mina-sidekiq', require: false
+gem 'mina-version_managers'
+gem 'redis'
+gem 'redis-rails'
+gem 'russian'
+gem 'sidekiq'
+gem 'sidekiq-scheduler'
+gem 'simple_form'
+gem 'slim'
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -68,6 +68,7 @@ end
 
 group :development do
   gem 'rubocop'
+  gem 'rubocop-rails', require: false
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
 

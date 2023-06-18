@@ -3,7 +3,6 @@
 module Parser
   class BaseParser
     # TODO:
-    # сделать кнопку для принудительного запуска парсера, чтобы отладить селектор
     # сделать галку у правила, чтобы можно было деактивировать его
     def initialize(url)
       options = Selenium::WebDriver::Chrome::Options.new
