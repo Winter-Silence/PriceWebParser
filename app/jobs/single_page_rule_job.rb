@@ -9,5 +9,6 @@ class SinglePageRuleJob < ApplicationJob
     price = Price.new(product_parser_rule: rule)
     price.value = price_value
     price.save
+    TelegramBot.low_price_notification(rule, price)
   end
 end

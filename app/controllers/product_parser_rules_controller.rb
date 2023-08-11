@@ -69,9 +69,8 @@ class ProductParserRulesController < ApplicationController
 
   # POST /product_parser_rules/1/check
   def check
-    parser = Parser::ProductPageParser.new(@product_parser_rule.url)
+    parser = Parser::ProductPageParser.new(@product_parser_rule.url, timeout: @product_parser_rule.waits_timeout)
     @data = parser.get_value(@product_parser_rule.selector)
-    Rails.logger.warn "!!!!!!!!!!! #{@product_parser_rule.selector}: #{@data}"
     render turbo_stream: turbo_stream.append('parse-result', partial: 'check')
   end
 
@@ -89,6 +88,6 @@ class ProductParserRulesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def product_parser_rule_params
-    params.require(:product_parser_rule).permit(:url, :selector)
+    params.require(:product_parser_rule).permit(:url, :selector, :waits_timeout, :active)
   end
 end

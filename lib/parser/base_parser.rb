@@ -3,8 +3,11 @@
 module Parser
   class BaseParser
     # TODO:
-    # сделать галку у правила, чтобы можно было деактивировать его
-    def initialize(url)
+    # Сделать галку у правила, чтобы можно было деактивировать его
+    # Нужно как-то фильтровать по заголовку товара, чтобы было именно то, по чему правило настроено. Например на озоне
+    # на правило Karcher WD3 вылезают Karcher WD2
+    def initialize(url, timeout: nil)
+      @timeout = timeout
       options = Selenium::WebDriver::Chrome::Options.new
       options.add_argument('--headless')
       options.add_argument('--disable-gpu')
@@ -13,7 +16,8 @@ module Parser
     end
 
     def get_value(selector)
-      Rails.logger.debug @driver.find_element(:css, selector).text
+      load_page(selector)
+
       value = @driver.find_element(:css, selector).text.gsub(/[^\d.,]/, '').to_f.to_i
       @driver.quit
       value
@@ -21,5 +25,13 @@ module Parser
       @driver.quit
       e.message
     end
+
+    def load_page(selector)
+      return unless @timeout.to_i.positive?
+
+      @wait = Selenium::WebDriver::Wait.new(timeout: @timeout)
+      @wait.until { @driver.find_element(:css, selector).displayed? }
+    end
+    private :load_page
   end
 end

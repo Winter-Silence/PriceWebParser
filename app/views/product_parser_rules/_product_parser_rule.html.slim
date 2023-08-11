@@ -1,5 +1,6 @@
 div
   p= product_parser_rule.url
   p= product_parser_rule.selector
+  p= product_parser_rule.waits_timeout
   p Дата последней проверки: #{product_parser_rule.last_run ? I18n.l(product_parser_rule.last_run, :format => '%e %b %Y %H:%M') : '-'}
   p Минимальная цена: #{product_parser_rule.lowest_price}

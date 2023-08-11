@@ -17,17 +17,17 @@ require 'mina/version_managers/rbenv' # for rbenv support. (https://rbenv.org)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :application_name, :price_web_parser
-set :domain, 'yury@5.188.119.172'
-set :port, 1693
-set :deploy_to, '/home/yury/PriceWebParser'
+set :domain, Rails.application.credentials.deployment[:domain]
+set :port, Rails.application.credentials.deployment[:port]
+set :deploy_to, Rails.application.credentials.deployment[:path]
 set :repository, 'git@github.com:Winter-Silence/PriceWebParser.git'
 set :branch, 'main'
 set :rbenv_path, '$HOME/.rbenv'
-set :bundler_path, '/home/yury/.rbenv/shims/bundler'
+set :bundler_path, Rails.application.credentials.deployment[:bundler_path]
 set :init_system, :systemd
-set :service_unit_path, '/home/yury/.config/systemd/user'
+set :service_unit_path, Rails.application.credentials.deployment[:service_unit_path]
 set :systemctl_command, 'systemctl --user'
-set :service_unit_name, 'sidekiq-yury.service'
+set :service_unit_name, Rails.application.credentials.deployment[:service_unit_name]
 
 # Optional settings:
 #   set :user, 'foobar'          # Username in the server to SSH to.
@@ -149,11 +149,4 @@ task :deploy do
       # invoke :'puma:stop'
     end
   end
-
-  # you can use `run :local` to run tasks on local machine before or after the deploy scripts
-  # run(:local){ say 'done' }
 end
-
-# For help in making your deploy script, see the Mina documentation:
-#
-#  - https://github.com/mina-deploy/mina/tree/master/docs

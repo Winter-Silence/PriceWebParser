@@ -11,13 +11,21 @@
 
   = form.hidden_field :product_id, value: @product&.id || @product_parser_rule.product_id
 
-  div
+  .form-group
     = form.label :url, class: 'form-label'
     = form.text_field :url, class: 'form-control'
 
-  div
+  .form-group
     = form.label :selector, class: 'form-label'
     = form.text_field :selector, class: 'form-control'
+
+  .form-group
+    = form.label :waits_timeout, class: 'form-label'
+    = form.text_field :waits_timeout, class: 'form-control'
+
+  .form-group.form-check
+    = form.label :active, class: 'form-check-label'
+    = form.check_box :active, class: 'form-check-input'
 
   div
     = form.button :submit, 'Сохранить', class: 'btn btn-primary'

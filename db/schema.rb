@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,33 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_601_185_555) do
-  create_table 'prices', force: :cascade do |t|
-    t.integer 'product_parser_rule_id'
-    t.integer 'value', null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['product_parser_rule_id'], name: 'index_prices_on_product_parser_rule_id'
+ActiveRecord::Schema[7.0].define(version: 2023_07_31_180947) do
+  create_table "prices", force: :cascade do |t|
+    t.integer "product_parser_rule_id"
+    t.integer "value", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_parser_rule_id"], name: "index_prices_on_product_parser_rule_id"
   end
 
-  create_table 'product_parser_rules', force: :cascade do |t|
-    t.integer 'product_id'
-    t.string 'url', null: false
-    t.string 'selector', null: false
-    t.boolean 'active', default: true
-    t.datetime 'last_run'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['product_id'], name: 'index_product_parser_rules_on_product_id'
+  create_table "product_parser_rules", force: :cascade do |t|
+    t.integer "product_id"
+    t.string "url", null: false
+    t.string "selector", null: false
+    t.boolean "active", default: true
+    t.datetime "last_run"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "waits_timeout"
+    t.index ["product_id"], name: "index_product_parser_rules_on_product_id"
   end
 
-  create_table 'products', force: :cascade do |t|
-    t.string 'title', null: false
-    t.string 'description'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
+  create_table "products", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_foreign_key 'prices', 'product_parser_rules'
-  add_foreign_key 'product_parser_rules', 'products'
+  add_foreign_key "prices", "product_parser_rules"
+  add_foreign_key "product_parser_rules", "products"
 end
