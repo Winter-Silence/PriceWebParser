@@ -5,6 +5,7 @@ require 'mina/rails'
 require 'mina/git'
 require 'mina_sidekiq/tasks'
 require 'mina/puma'
+require_relative 'application'
 
 # Install https://github.com/mina-deploy/mina-version_managers for rbenv and rvm tasks
 require 'mina/version_managers/rbenv' # for rbenv support. (https://rbenv.org)
@@ -87,6 +88,7 @@ namespace :puma do
 
     comment 'Starting Puma...'
     command %[
+    echo cd #{fetch(:puma_root_path)} && #{fetch(:puma_cmd)} -q -d -e #{fetch(:puma_env)} -b "unix://#{fetch(:puma_socket)}" #{puma_port_option} -S #{fetch(:puma_state)} --pidfile #{fetch(:puma_pid)} --control 'unix://#{fetch(:pumactl_socket)}' --redirect-stdout "#{fetch(:puma_stdout)}" --redirect-stderr "#{fetch(:puma_stderr)}"
       if [ -e "#{fetch(:puma_pid)}"  ] && kill -0 "$(cat #{fetch(:puma_pid)})" 2> /dev/null; then
         echo 'Puma is already running!';
       else
