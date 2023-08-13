@@ -3,6 +3,7 @@
 class SinglePageParserJob < ApplicationJob
   def perform(parse_now: false)
     products = Product.left_outer_joins(product_parser_rules: :prices)
+                      .active_only
                       .where(ProductParserRule.arel_table[:last_run].lt(30.minutes.ago)
                                                                     .or(ProductParserRule.arel_table[:last_run].eq(nil)))
     products.each do |product|

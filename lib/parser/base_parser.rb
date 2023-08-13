@@ -3,7 +3,6 @@
 module Parser
   class BaseParser
     # TODO:
-    # Сделать галку у правила, чтобы можно было деактивировать его
     # Нужно как-то фильтровать по заголовку товара, чтобы было именно то, по чему правило настроено. Например на озоне
     # на правило Karcher WD3 вылезают Karcher WD2
     def initialize(url, timeout: nil)
@@ -25,6 +24,8 @@ module Parser
       @driver.quit
       e.message
     end
+
+    private
 
     def load_page(selector)
       return unless @timeout.to_i.positive?
