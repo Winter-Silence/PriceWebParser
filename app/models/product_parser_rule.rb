@@ -8,6 +8,6 @@ class ProductParserRule < ApplicationRecord
   scope :active_only, -> { where(active: true) }
 
   def lowest_price
-    prices.minimum(:value)
+    prices.minimum(:value).to_i
   end
 end
