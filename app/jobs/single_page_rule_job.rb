@@ -4,6 +4,8 @@ class SinglePageRuleJob < ApplicationJob
   def perform(rule)
     parser = Parser::ProductPageParser.new(rule.url, timeout: rule.waits_timeout)
     price_value = parser.get_value(rule.selector)
+    pp({'rule.lowest_price': rule.lowest_price, 'rule.lowest_price.class': rule.lowest_price.class,
+        'price_value': price_value, 'price_value.class': price_value.class})
     return if price_value.blank? || (!rule.lowest_price.nil? && rule.lowest_price <= price_value)
 
     price = Price.new(product_parser_rule: rule)
