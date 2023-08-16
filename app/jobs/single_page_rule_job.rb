@@ -14,7 +14,7 @@ class SinglePageRuleJob < ApplicationJob
       price.save
       TelegramBot.low_price_notification(rule, price)
     in Failure(error_message)
-      Rails.logger.error(error_message)
+      Rails.logger.error("#{rule.url}: #{error_message}#")
     end
   end
 
