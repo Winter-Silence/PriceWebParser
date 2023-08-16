@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SinglePageRuleJob < ApplicationJob
+  include Dry::Monads[:result]
+
   def perform(rule)
     parser = Parser::ProductPageParser.new(rule.url, timeout: rule.waits_timeout)
     case parser.get_value(rule.selector)
