@@ -29,7 +29,7 @@ gem 'cssbundling-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
-# Use Redis adapter to run Action Cable in production
+gem 'dry-monads'
 gem 'mina', github: 'mina-deploy/mina'
 gem 'mina-ng-puma', require: false
 gem 'mina-sidekiq', require: false

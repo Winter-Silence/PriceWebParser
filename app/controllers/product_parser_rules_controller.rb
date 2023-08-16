@@ -70,7 +70,7 @@ class ProductParserRulesController < ApplicationController
   # POST /product_parser_rules/1/check
   def check
     parser = Parser::ProductPageParser.new(@product_parser_rule.url, timeout: @product_parser_rule.waits_timeout)
-    @data = parser.get_value(@product_parser_rule.selector)
+    @data = parser.get_value(@product_parser_rule.selector).value!
     render turbo_stream: turbo_stream.append('parse-result', partial: 'check')
   end
 
