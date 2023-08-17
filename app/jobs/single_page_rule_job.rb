@@ -9,10 +9,11 @@ class SinglePageRuleJob < ApplicationJob
     in Success(price_value)
       return if price_value.blank? || (!rule.lowest_price.nil? && rule.lowest_price <= price_value)
 
+      product_lowest_price = product.lowest_price
       price = Price.new(product_parser_rule: rule)
       price.value = price_value
       price.save
-      TelegramBot.low_price_notification(rule, price)
+      TelegramBot.low_price_notification(rule, price) if need_notification(product_lowest_price, price_value)
     in Failure(error_message)
       Rails.logger.error("#{rule.url}: #{error_message}#")
     end
@@ -20,6 +21,8 @@ class SinglePageRuleJob < ApplicationJob
 
   private
 
-  # TODO: Нужно уведомлять о снижении цены, если она уменьшилась спустя месяц по отношению к цене, низжей в течение месяца
-  def need_notification(product, price); end
+  # Уведомляем, если цена снизилась на 5% и больше
+  def need_notification(lowest_price, price_value)
+    lowest_price > price_value && (lowest_price / price_value * 100) >= 5
+  end
 end
