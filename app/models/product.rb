@@ -5,6 +5,6 @@ class Product < ApplicationRecord
   has_many :prices, through: :product_parser_rules
 
   def lowest_price
-    prices.minimum(:value).to_i
+    prices.minimum(:value)
   end
 end
