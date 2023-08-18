@@ -5,4 +5,10 @@ namespace :parsers do
   task parse_single_page: :environment do
     SinglePageParserJob.perform_now(parse_now: true)
   end
+
+  desc 'Проверка условий парсера'
+  task parse_rule: :environment do
+    rule = ProductParserRule.find 1
+    SinglePageRuleJob.perform_now(rule)
+  end
 end
