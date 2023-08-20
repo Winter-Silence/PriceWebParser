@@ -3,25 +3,41 @@
 class ProductParserRulesController < ApplicationController
   before_action :set_product_parser_rule, only: %i[show edit update destroy check]
   before_action :set_product, only: %i[new create]
+  add_breadcrumb 'Список товаров', :root_path
 
   # GET /product_parser_rules or /product_parser_rules.json
   def index
-    @product = Product.eager_load(:product_parser_rules, :prices).find_by(id: params[:product_id])
+    @product = Product.eager_load(:product_parser_rules, :prices).where(id: params[:product_id]).sole
     @product_parser_rules = @product.product_parser_rules
+    add_breadcrumb @product.title, @product
+    add_breadcrumb 'Cписок правил'
   end
 
   # GET /product_parser_rules/1 or /product_parser_rules/1.json
   def show
     @product = @product_parser_rule.product
+
+    raise RecordNotFound("Не найден товар c ID #{@product_parser_rule.product_id}") unless @product
+
+    add_breadcrumb @product.title, @product
+    add_breadcrumb 'Список правил', product_product_parser_rules_path(@product)
+    add_breadcrumb 'Правило'
   end
 
   # GET /products/:product_id/product_parser_rules/new
   def new
+    add_breadcrumb "Новое правило для #{@product.title}"
     @product_parser_rule = @product.product_parser_rules.build
   end
 
   # GET /product_parser_rules/1/edit
-  def edit; end
+  def edit
+    product = @product_parser_rule.product
+    add_breadcrumb product.title, product
+    add_breadcrumb 'Список правил', product_product_parser_rules_path(product)
+    add_breadcrumb @product_parser_rule.url.truncate(50), @product_parser_rule
+    add_breadcrumb 'Редактирование'
+  end
 
   # POST /products/:product_id/product_parser_rules
   def create
@@ -70,7 +86,12 @@ class ProductParserRulesController < ApplicationController
   # POST /product_parser_rules/1/check
   def check
     parser = Parser::ProductPageParser.new(@product_parser_rule.url, timeout: @product_parser_rule.waits_timeout)
-    @data = parser.get_value(@product_parser_rule.selector).value!
+    result = parser.get_value(@product_parser_rule.selector)
+    @data = if result.success?
+              result.value!
+            else
+              result.failure
+            end
     render turbo_stream: turbo_stream.append('parse-result', partial: 'check')
   end
 

@@ -29,6 +29,7 @@ gem 'cssbundling-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
+gem 'breadcrumbs_on_rails'
 gem 'dry-monads'
 gem 'mina', github: 'mina-deploy/mina'
 gem 'mina-ng-puma', require: false

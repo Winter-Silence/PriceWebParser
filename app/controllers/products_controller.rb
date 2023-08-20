@@ -3,21 +3,29 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[show edit update destroy]
 
+  add_breadcrumb 'Список товаров', :root_path
+
   # GET /products or /products.json
   def index
     @products = Product.all
   end
 
   # GET /products/1 or /products/1.json
-  def show; end
+  def show
+    add_breadcrumb @product.title
+  end
 
   # GET /products/new
   def new
+    add_breadcrumb 'Новый товар'
     @product = Product.new
   end
 
   # GET /products/1/edit
-  def edit; end
+  def edit
+    add_breadcrumb @product.title, @product
+    add_breadcrumb 'Редактирование'
+  end
 
   # POST /products or /products.json
   def create
