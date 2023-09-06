@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_31_180947) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_04_052717) do
   create_table "prices", force: :cascade do |t|
     t.integer "product_parser_rule_id"
     t.integer "value", null: false
@@ -38,6 +38,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_180947) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "rules_errors", force: :cascade do |t|
+    t.integer "product_parser_rule_id"
+    t.integer "error_type", null: false
+    t.text "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_parser_rule_id"], name: "index_rules_errors_on_product_parser_rule_id"
+  end
+
   add_foreign_key "prices", "product_parser_rules"
   add_foreign_key "product_parser_rules", "products"
+  add_foreign_key "rules_errors", "product_parser_rules"
 end

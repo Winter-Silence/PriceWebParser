@@ -101,6 +101,11 @@ GEM
     et-orbi (1.2.7)
       tzinfo
     facets (3.1.0)
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     foreman (0.87.2)
     fugit (1.8.1)
       et-orbi (~> 1, >= 1.2.7)
@@ -328,6 +333,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   dry-monads
+  factory_bot_rails
   foreman
   jbuilder
   jsbundling-rails

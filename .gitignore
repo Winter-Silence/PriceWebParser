@@ -41,3 +41,4 @@
 /public/fonts/*
 \!/public/fonts/.keep
 /.env
+/spec/examples.txt

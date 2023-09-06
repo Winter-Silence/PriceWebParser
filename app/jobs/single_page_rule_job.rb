@@ -23,6 +23,8 @@ class SinglePageRuleJob < ApplicationJob
   end
 
   def handle_success(rule, price_value)
+    RulesError.where(product_parser_rule: rule).destroy_all if price_value.present?
+
     return if price_value.blank? || (!rule.lowest_price.nil? && rule.lowest_price <= price_value)
 
     product_lowest_price = rule.product.lowest_price
@@ -35,6 +37,7 @@ class SinglePageRuleJob < ApplicationJob
 
   def handle_failure(rule, error_message)
     Rails.logger.error("#{rule.url}: #{error_message}")
+    ErrorHandlingService.new(rule, error_message).process
   end
 
   def create_price(rule, value)

@@ -1,5 +1,5 @@
-div
-  p= product_parser_rule.url
+div class="#{'bg-secondary' unless product_parser_rule.active}"
+  p= link_to product_parser_rule.url, product_parser_rule.url
   p= product_parser_rule.selector
   p= product_parser_rule.waits_timeout
   p Дата последней проверки: #{product_parser_rule.last_run ? I18n.l(product_parser_rule.last_run, :format => '%e %b %Y %H:%M') : '-'}
