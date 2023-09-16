@@ -24,6 +24,7 @@ module PriceWebParser
       g.test_framework :rspec
     end
     config.autoload_paths << Rails.root.join('lib')
+    config.eager_load_paths << Rails.root.join('lib')
     config.i18n.default_locale = :ru
   end
 end

@@ -11,5 +11,7 @@ html lang="ru"
 
   body
     .container
-      = render_breadcrumbs
+      nav aria-label="breadcrumb"
+        ol.breadcrumb
+          = render_breadcrumbs(tag: :li, separator: '', builder: BreadcrumbBuilder)
       = yield

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_04_052717) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_10_075949) do
   create_table "prices", force: :cascade do |t|
     t.integer "product_parser_rule_id"
     t.integer "value", null: false
@@ -28,6 +28,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_04_052717) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "waits_timeout"
+    t.json "cookies", default: {}, null: false
     t.index ["product_id"], name: "index_product_parser_rules_on_product_id"
   end
 
@@ -36,6 +37,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_04_052717) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "period_lowest_price"
   end
 
   create_table "rules_errors", force: :cascade do |t|

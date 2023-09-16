@@ -3,6 +3,7 @@
 class ProductParserRulesController < ApplicationController
   before_action :set_product_parser_rule, only: %i[show edit update destroy check]
   before_action :set_product, only: %i[new create]
+  before_action :cookies_to_json, only: %i[edit show]
   add_breadcrumb 'Список товаров', :root_path
 
   # GET /product_parser_rules or /product_parser_rules.json
@@ -33,8 +34,7 @@ class ProductParserRulesController < ApplicationController
   # GET /product_parser_rules/1/edit
   def edit
     product = @product_parser_rule.product
-    add_breadcrumb product.title, product
-    add_breadcrumb 'Список правил', product_product_parser_rules_path(product)
+    add_breadcrumb(product.title, product)
     add_breadcrumb @product_parser_rule.url.truncate(50), @product_parser_rule
     add_breadcrumb 'Редактирование'
   end
@@ -60,6 +60,7 @@ class ProductParserRulesController < ApplicationController
   # PATCH/PUT /product_parser_rules/1 or /product_parser_rules/1.json
   def update
     respond_to do |format|
+
       if @product_parser_rule.update(product_parser_rule_params)
         format.html do
           redirect_to product_parser_rule_url(@product_parser_rule),
@@ -85,7 +86,7 @@ class ProductParserRulesController < ApplicationController
 
   # POST /product_parser_rules/1/check
   def check
-    parser = Parser::ProductPageParser.new(@product_parser_rule.url, timeout: @product_parser_rule.waits_timeout)
+    parser = Parser::ProductPageParser.new(@product_parser_rule.url, timeout: @product_parser_rule.waits_timeout, cookies: @product_parser_rule.cookies)
     result = parser.get_value(@product_parser_rule.selector)
     @data = if result.success?
               result.value!
@@ -109,6 +110,10 @@ class ProductParserRulesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def product_parser_rule_params
-    params.require(:product_parser_rule).permit(:url, :selector, :waits_timeout, :active)
+    params.require(:product_parser_rule).permit(:url, :selector, :waits_timeout, :active, :cookies)
+  end
+
+  def cookies_to_json
+    @product_parser_rule.cookies = @product_parser_rule.cookies.to_json if @product_parser_rule.cookies.is_a?(Hash)
   end
 end

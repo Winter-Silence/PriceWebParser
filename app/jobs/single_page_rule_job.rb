@@ -12,7 +12,7 @@ class SinglePageRuleJob < ApplicationJob
   private
 
   def parse_and_process(rule)
-    parser = Parser::ProductPageParser.new(rule.url, timeout: rule.waits_timeout)
+    parser = Parser::ProductPageParser.new(rule.url, timeout: rule.waits_timeout, cookies: rule.cookies)
 
     case parser.get_value(rule.selector)
     in Success(parsed_price)
@@ -27,7 +27,8 @@ class SinglePageRuleJob < ApplicationJob
 
     return if price_value.blank? || (!rule.lowest_price.nil? && rule.lowest_price <= price_value)
 
-    product_lowest_price = rule.product.lowest_price
+    period_lowest_price = rule.product.period_lowest_price&.to_i&.days&.ago
+    product_lowest_price = rule.product.lowest_price(since: period_lowest_price)
     create_price(rule, price_value)
 
     return unless need_notification(product_lowest_price, price_value)

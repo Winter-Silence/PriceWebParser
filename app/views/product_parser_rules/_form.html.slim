@@ -1,4 +1,5 @@
-= simple_form_for(product_parser_rule) do |form|
+= simple_form_for(product_parser_rule) do |f|
+  = f.hidden_field :product_id, value: @product&.id || @product_parser_rule.product_id
 
   - if product_parser_rule.errors.any?
     div style="color: red"
@@ -8,24 +9,24 @@
       ul
         - product_parser_rule.errors.each do |error|
           li= error.full_message
-
-  = form.hidden_field :product_id, value: @product&.id || @product_parser_rule.product_id
+  .form-group
+    = f.label :url, class: 'form-label'
+    = f.text_field :url, class: 'form-control'
 
   .form-group
-    = form.label :url, class: 'form-label'
-    = form.text_field :url, class: 'form-control'
+    = f.label :selector, class: 'form-label'
+    = f.text_field :selector, class: 'form-control'
 
   .form-group
-    = form.label :selector, class: 'form-label'
-    = form.text_field :selector, class: 'form-control'
+    = f.label :waits_timeout, class: 'form-label'
+    = f.text_field :waits_timeout, class: 'form-control'
 
   .form-group
-    = form.label :waits_timeout, class: 'form-label'
-    = form.text_field :waits_timeout, class: 'form-control'
+    = f.label :cookies, class: 'form-label'
+    = f.text_field :cookies, class: 'form-control'
 
   .form-group.form-check
-    = form.label :active, class: 'form-check-label'
-    = form.check_box :active, class: 'form-check-input'
-
+    = f.label :active, class: 'form-check-label'
+    = f.check_box :active, class: 'form-check-input'
   div
-    = form.button :submit, 'Сохранить', class: 'btn btn-primary'
+    = f.button :submit, 'Сохранить', class: 'btn btn-primary'

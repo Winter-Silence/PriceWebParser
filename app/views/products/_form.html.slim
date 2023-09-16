@@ -8,13 +8,16 @@
         -  product.errors.full_messages.each do |error|
           li= error
 
-  .mb-3
+  .form-group
     = form.label :title, class: 'form-label'
     = form.text_field :title, class: 'form-control'
 
-  .mb-3
+  .form-group
     = form.label :description, class: 'form-label'
     = form.text_area :description, class: 'form-control'
 
-  .mb-3
+  .form-group
+    = form.input :period_lowest_price, collection: Product.period_lowest_prices.keys.map { [_1, _1]}, class: 'form-control', selected: @product.period_lowest_price || 60
+
+  .form-group
     = form.button :submit, 'Сохранить', class: 'btn btn-primary'

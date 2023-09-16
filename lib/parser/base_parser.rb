@@ -8,12 +8,19 @@ module Parser
     # TODO:
     # Нужно как-то фильтровать по заголовку товара, чтобы было именно то, по чему правило настроено. Например на озоне
     # на правило Karcher WD3 вылезают Karcher WD2
-    def initialize(url, timeout: nil)
+    def initialize(url, timeout: nil, cookies: {})
       @timeout = timeout
       options = Selenium::WebDriver::Chrome::Options.new
       options.add_argument('--headless')
       options.add_argument('--disable-gpu')
       @driver = Webdriver::UserAgent.driver(browser: :chrome, agent: :desktop, orientation: :landscape, options:)
+      if cookies.present?
+        @driver.get(url)
+        cookies.each do |name, value|
+          @driver.manage.add_cookie(name:, value: value.to_s)
+        end
+      end
+
       @driver.navigate.to url
     end
 
