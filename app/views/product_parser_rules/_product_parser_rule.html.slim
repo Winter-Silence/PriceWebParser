@@ -1,5 +1,5 @@
 div class="#{'bg-secondary' unless product_parser_rule.active}"
-  p= link_to product_parser_rule.url, product_parser_rule.url
+  p= link_to product_parser_rule.url, product_parser_rule.url, target: '_blank', rel: 'nofollow'
   p= product_parser_rule.selector
   p= product_parser_rule.waits_timeout
   p= product_parser_rule.cookies
