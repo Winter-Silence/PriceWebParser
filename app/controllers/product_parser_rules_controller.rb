@@ -27,8 +27,10 @@ class ProductParserRulesController < ApplicationController
 
   # GET /products/:product_id/product_parser_rules/new
   def new
-    add_breadcrumb "Новое правило для #{@product.title}"
+    add_breadcrumb(@product.title, @product)
+    add_breadcrumb 'Новое правило'
     @product_parser_rule = @product.product_parser_rules.build
+    @product_parser_rule.cookies = '{}'
   end
 
   # GET /product_parser_rules/1/edit
@@ -79,7 +81,7 @@ class ProductParserRulesController < ApplicationController
     @product_parser_rule.destroy
 
     respond_to do |format|
-      format.html { redirect_to product_parser_rules_url, notice: 'Product parser rule was successfully destroyed.' }
+      format.html { redirect_to product_path(@product_parser_rule.product), notice: 'Product parser rule was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
