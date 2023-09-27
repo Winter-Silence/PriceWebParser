@@ -42,8 +42,8 @@ set :service_unit_name, Rails.application.credentials.deployment[:service_unit_n
 # set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml')
 
 set :shared_files,
-    fetch(:shared_files, []).push('log', 'config/database.yml', 'config/secrets.yml', 'db/production.sqlite3', 'tmp/pids',
-                                  'tmp/sockets')
+    fetch(:shared_files, []).push('log', 'config/database.yml', 'config/secrets.yml',
+                                  'config/master.key', 'db/production.sqlite3', 'tmp/pids', 'tmp/sockets')
 
 # This task is the environment that is loaded for all remote run commands, such as
 # `mina deploy` or `mina rake`.

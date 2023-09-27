@@ -9,7 +9,7 @@ class ErrorHandlingService
 
   def process
     rule_error = create_rule_error
-    handle_error_notification(rule_error) if rule_error
+    handle_error_notification(rule_error) if rule_error && errors_count(rule_error.error_type) == @error_threshold
   rescue StandardError => e
     Rails.logger.error e.message
   end
