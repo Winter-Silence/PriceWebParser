@@ -72,10 +72,8 @@ RSpec.describe ErrorHandlingService do
     it 'notifies with error_alert if errors count reaches the threshold' do
       error_handling_service = ErrorHandlingService.new(product_parser_rule, msg, 2)
 
-      expect(RulesError).to receive(:where).with(product_parser_rule:,
-                                                 error_type: :unrecognized).and_return([
-                                                                                         double, double
-                                                                                       ])
+      expect(RulesError).to receive(:where).with(product_parser_rule:, error_type: :unrecognized)
+                                           .and_return([double, double])
       expect(Notifier::TelegramBot).to receive(:error_alert)
 
       error_handling_service.send(:handle_error_notification, double(error_type: :unrecognized))

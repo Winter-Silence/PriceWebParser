@@ -18,8 +18,8 @@ class ErrorHandlingService
 
   def create_rule_error
     rule_error_type = determine_error_type
-    
-    return unless errors_count(rule_error_type) < @error_threshold
+
+    return if errors_count(rule_error_type) >= @error_threshold
 
     RulesError.create(product_parser_rule: @product_parser_rule, error_type: rule_error_type, message: @msg)
   end
@@ -34,7 +34,7 @@ class ErrorHandlingService
   end
 
   def handle_error_notification(rule_error)
-    Notifier::TelegramBot.error_alert(rule_error) if errors_count(rule_error.error_type) == @error_threshold
+    Notifier::TelegramBot.error_alert(rule_error)
   end
   
   def errors_count(error_type)

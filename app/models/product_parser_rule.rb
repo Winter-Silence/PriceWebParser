@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ProductParserRule < ApplicationRecord
+  include PriceQueryable
+
   before_save :convert_cookies_to_json
 
   belongs_to :product
@@ -10,13 +12,9 @@ class ProductParserRule < ApplicationRecord
   scope :outdated_rules, -> { where('last_run < ?', 30.minutes.ago) }
   scope :only_active, -> { where(active: true) }
 
-  def lowest_price
-    prices.minimum(:value)
-  end
-
   private
 
   def convert_cookies_to_json
-    self.cookies = JSON.parse(cookies)
+    self.cookies = JSON.parse(cookies.to_s)
   end
 end

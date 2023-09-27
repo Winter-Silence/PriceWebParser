@@ -6,6 +6,7 @@ FactoryBot.define do
     selector { 'a.class="price"' }
     active { true }
     last_run { 1.day.ago }
+    cookies { {} }
     association :product, factory: :product
   end
 end
