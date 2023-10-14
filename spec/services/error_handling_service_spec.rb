@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe ErrorHandlingService do
   let(:product_parser_rule) { create(:product_parser_rule) }
   let(:msg) { 'Test error message' }
-  let(:error_threshold) { 20 }
+  let(:error_threshold) { 3 }
 
   describe '#initialize' do
     it 'initializes with product_parser_rule, msg, and error_threshold' do
@@ -17,6 +17,7 @@ RSpec.describe ErrorHandlingService do
   end
 
   describe '#process' do
+    before { create_list(:rules_error, 2, product_parser_rule:) }
     it 'creates a rule error and handles error notification' do
       error_handling_service = ErrorHandlingService.new(product_parser_rule, msg, error_threshold)
 
@@ -43,7 +44,7 @@ RSpec.describe ErrorHandlingService do
       rule_error = error_handling_service.send(:create_rule_error)
 
       expect(rule_error.product_parser_rule).to eq(product_parser_rule)
-      expect(rule_error.error_type).to eq('unrecognized') # Assuming the error message doesn't contain 'no such element:'
+      expect(rule_error.error_type).to eq('unrecognized')
       expect(rule_error.message).to eq(msg)
     end
   end
@@ -70,17 +71,17 @@ RSpec.describe ErrorHandlingService do
 
   describe '#handle_error_notification' do
     it 'notifies with error_alert if errors count reaches the threshold' do
-      error_handling_service = ErrorHandlingService.new(product_parser_rule, msg, 2)
+      error_handling_service = ErrorHandlingService.new(product_parser_rule, msg, 3)
 
       expect(RulesError).to receive(:where).with(product_parser_rule:, error_type: :unrecognized)
                                            .and_return([double, double])
       expect(Notifier::TelegramBot).to receive(:error_alert)
 
-      error_handling_service.send(:handle_error_notification, double(error_type: :unrecognized))
+      error_handling_service.send(:process)
     end
 
     it 'does not notify if errors count does not reach the threshold' do
-      error_handling_service = ErrorHandlingService.new(product_parser_rule, msg, 3)
+      error_handling_service = ErrorHandlingService.new(product_parser_rule, msg, 4)
 
       expect(RulesError).to receive(:where).with(product_parser_rule:,
                                                  error_type: :unrecognized).and_return([
@@ -88,7 +89,7 @@ RSpec.describe ErrorHandlingService do
                                                                                        ])
       expect(Notifier::TelegramBot).not_to receive(:error_alert)
 
-      error_handling_service.send(:handle_error_notification, double(error_type: :unrecognized))
+      error_handling_service.send(:process)
     end
   end
 end

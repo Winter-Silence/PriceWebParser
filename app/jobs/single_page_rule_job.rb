@@ -23,17 +23,17 @@ class SinglePageRuleJob < ApplicationJob
   end
 
   def handle_success(rule, price_value)
-    RulesError.where(product_parser_rule: rule).destroy_all if price_value.present?
+    return if price_value.blank?
+
+    RulesError.where(product_parser_rule: rule).destroy_all
+    rule_lowest_price = rule.lowest_price
+
+    create_price(rule, price_value) if rule_lowest_price.nil? || rule_lowest_price > price_value
 
     period_lowest_price = rule.product.period_lowest_price&.to_i&.days&.ago
-    rule_lowest_price = rule.lowest_price(since: period_lowest_price)
+    lowest_price_by_period = rule.product.lowest_price(since: period_lowest_price)
 
-    return if price_value.blank? || (!rule_lowest_price.nil? && rule_lowest_price <= price_value)
-
-    create_price(rule, price_value)
-    product_lowest_price = rule.product.lowest_price(since: period_lowest_price)
-
-    return unless need_notification(product_lowest_price, price_value)
+    return unless need_notification(lowest_price_by_period, price_value)
 
     Notifier::TelegramBot.low_price_notification(rule, price_value)
   end

@@ -5,7 +5,7 @@ module PriceQueryable
 
   included do
     def lowest_price(since: nil)
-      return unless since.nil? || valid_date?(since)
+      return if !since.nil? && valid_date?(since)
 
       prices.where(created_at: since..).minimum(:value)
     end

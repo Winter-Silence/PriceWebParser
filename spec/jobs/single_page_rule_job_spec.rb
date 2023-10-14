@@ -41,14 +41,12 @@ RSpec.describe SinglePageRuleJob, type: :job do
       let!(:errors) { create_list(:rules_error, 3, product_parser_rule: rule)}
       let(:price_value) { 60 }
 
-      before { create(:price, product_parser_rule: rule, value: price_value) }
-
-      it 'creates a new price record and sends a notification' do
+      it 'creates a new price record and doesnt send a notification' do
         allow(RulesError).to receive_message_chain(:where, :destroy_all)
         allow(rule).to receive(:lowest_price).and_return(nil)
 
         expect(Price).to receive(:create).with(product_parser_rule: rule, value: 50)
-        expect(Notifier::TelegramBot).to receive(:low_price_notification).with(rule, 50)
+        expect(Notifier::TelegramBot).not_to receive(:low_price_notification)
 
         job.send(:handle_success, rule, 50)
       end
@@ -58,6 +56,7 @@ RSpec.describe SinglePageRuleJob, type: :job do
       let(:price_value) { 60 }
 
       before { create(:price, product_parser_rule: rule, value: price_value) }
+
       it 'does not create a new price record and does not send a notification if price is not lower' do
         allow(RulesError).to receive_message_chain(:where, :destroy_all)
         allow(rule).to receive(:lowest_price).and_return(price_value)
