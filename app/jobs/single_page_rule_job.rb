@@ -47,10 +47,11 @@ class SinglePageRuleJob < ApplicationJob
     Price.create(product_parser_rule: rule, value:)
   end
 
+  # Проверка, на сколько процентов уменьшилась цена
   def need_notification(lowest_price, price_value)
     return false unless lowest_price
 
     price_decrease_percentage = (lowest_price - price_value.to_f) / lowest_price * 100
-    price_decrease_percentage >= 5
+    price_decrease_percentage >= 1
   end
 end

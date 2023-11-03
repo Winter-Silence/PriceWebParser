@@ -12,7 +12,6 @@ module Parser
       @timeout = timeout
       options = Selenium::WebDriver::Chrome::Options.new
       options.add_argument('--headless')
-      options.add_argument('--disable-gpu')
       @driver = Webdriver::UserAgent.driver(browser: :chrome, agent: :desktop, orientation: :landscape, options:)
       if cookies.present?
         @driver.get(url)
