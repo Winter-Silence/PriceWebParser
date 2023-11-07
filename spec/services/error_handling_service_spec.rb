@@ -19,6 +19,7 @@ RSpec.describe ErrorHandlingService do
   describe '#process' do
     before { create_list(:rules_error, 2, product_parser_rule:) }
     it 'creates a rule error and handles error notification' do
+      allow(Notifier::TelegramBot).to receive(:error_alert)
       error_handling_service = ErrorHandlingService.new(product_parser_rule, msg, error_threshold)
 
       expect(error_handling_service).to receive(:create_rule_error).once.and_call_original
