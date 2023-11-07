@@ -13,6 +13,7 @@ class ProductsController < ApplicationController
   # GET /products/1 or /products/1.json
   def show
     add_breadcrumb @product.title
+    prices_chart
   end
 
   # GET /products/new
@@ -64,6 +65,25 @@ class ProductsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def prices_chart
+    grouped_by_rules = {}
+    sql = "SELECT strftime('%d.%m.%Y', prices.created_at) as date_day, MIN(prices.value) as min_price, rules.url
+            FROM products
+            JOIN product_parser_rules rules ON products.id = rules.product_id
+            JOIN prices ON prices.product_parser_rule_id = rules.id
+            WHERE products.id = ?
+            GROUP BY date_day
+            ORDER BY date_day"
+    Product.execute_sql(sql, @product.id).each do |record|
+      grouped_by_rules[record['url']] = {} if grouped_by_rules[record['url']].nil?
+      grouped_by_rules[record['url']][record['date_day']] = record['min_price']
+    end
+    @data = []
+    grouped_by_rules.each do |rule_url, rule_data|
+      @data << { name: rule_url, data: rule_data}
     end
   end
 

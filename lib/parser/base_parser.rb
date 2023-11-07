@@ -7,12 +7,11 @@ module Parser
     include Dry::Monads[:result, :do]
     # TODO:
     # Нужно как-то фильтровать по заголовку товара, чтобы было именно то, по чему правило настроено. Например на озоне
-    # на правило Karcher WD3 вылезают Karcher WD2
+    # на правило Karcher WzD3 вылезают Karcher WD2
     def initialize(url, timeout: nil, cookies: {})
       @timeout = timeout
       options = Selenium::WebDriver::Chrome::Options.new
       options.add_argument('--headless')
-      options.add_argument('--disable-gpu')
       @driver = Webdriver::UserAgent.driver(browser: :chrome, agent: :desktop, orientation: :landscape, options:)
       if cookies.present?
         @driver.get(url)

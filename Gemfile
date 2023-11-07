@@ -30,6 +30,7 @@ gem 'cssbundling-rails'
 gem 'jbuilder'
 
 gem 'breadcrumbs_on_rails'
+gem 'chartkick'
 gem 'dry-monads'
 gem 'mina', github: 'mina-deploy/mina'
 gem 'mina-ng-puma', require: false

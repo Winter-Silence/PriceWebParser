@@ -1,1 +1,5 @@
+h3 Динамика цен
+
+= render partial: 'prices_chart'
+/ = line_chart @product.product_parser_rules.map { {name: _1.url, data: _1.prices.group(:value).map { |price| [ price.created_at, price.value ] } } }
 
