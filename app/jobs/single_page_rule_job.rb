@@ -30,7 +30,7 @@ class SinglePageRuleJob < ApplicationJob
 
     create_price(rule, price_value) if rule_lowest_price.nil? || rule_lowest_price > price_value
 
-    period_lowest_price = rule.product.period_lowest_price&.to_i&.days&.ago
+    period_lowest_price = Product.period_lowest_prices[rule.product.period_lowest_price]&.to_i&.days&.ago
     lowest_price_by_period = rule.product.lowest_price(since: period_lowest_price)
 
     return unless need_notification(lowest_price_by_period, price_value)

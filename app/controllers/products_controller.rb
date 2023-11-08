@@ -74,10 +74,10 @@ class ProductsController < ApplicationController
             FROM products
             JOIN product_parser_rules rules ON products.id = rules.product_id
             JOIN prices ON prices.product_parser_rule_id = rules.id
-            WHERE products.id = ?
+            WHERE products.id = ? AND prices.created_at BETWEEN ? AND date('now')
             GROUP BY date_day
-            ORDER BY date_day"
-    Product.execute_sql(sql, @product.id).each do |record|
+            ORDER BY prices.created_at ASC"
+    Product.execute_sql(sql, @product.id, Product.period_lowest_prices[@product.period_lowest_price].to_i.days.ago).each do |record|
       grouped_by_rules[record['url']] = {} if grouped_by_rules[record['url']].nil?
       grouped_by_rules[record['url']][record['date_day']] = record['min_price']
     end
@@ -96,6 +96,6 @@ class ProductsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def product_params
-    params.require(:product).permit(:title, :description, :period_lowest_price)
+    params.require(:product).permit(:title, :description)
   end
 end
