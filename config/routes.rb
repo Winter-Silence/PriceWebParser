@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   end
   resources :products do
     resources :product_parser_rules, only: %i[index new create]
+    get :prices_chart, on: :member
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

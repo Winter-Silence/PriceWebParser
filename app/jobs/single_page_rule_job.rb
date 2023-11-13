@@ -52,6 +52,6 @@ class SinglePageRuleJob < ApplicationJob
     return false unless lowest_price
 
     price_decrease_percentage = (lowest_price - price_value.to_f) / lowest_price * 100
-    price_decrease_percentage >= 1
+    price_decrease_percentage >= 5
   end
 end

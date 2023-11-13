@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProductsController < ApplicationController
-  before_action :set_product, only: %i[show edit update destroy]
+  before_action :set_product, only: %i[show edit update destroy prices_chart]
 
   add_breadcrumb 'Список товаров', :root_path
 
@@ -13,7 +13,6 @@ class ProductsController < ApplicationController
   # GET /products/1 or /products/1.json
   def show
     add_breadcrumb @product.title
-    prices_chart
   end
 
   # GET /products/new
@@ -85,6 +84,8 @@ class ProductsController < ApplicationController
     grouped_by_rules.each do |rule_url, rule_data|
       @data << { name: rule_url, data: rule_data}
     end
+
+    render turbo_stream: turbo_stream.append('prices-chart', partial: 'prices-chart')
   end
 
   private

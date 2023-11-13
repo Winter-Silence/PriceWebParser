@@ -8,7 +8,7 @@ namespace :parsers do
 
   desc 'Проверка условий парсера'
   task parse_rule: :environment do
-    rule = ProductParserRule.find 1
+    rule = ProductParserRule.find 20
     SinglePageRuleJob.perform_now(rule)
   end
 end
