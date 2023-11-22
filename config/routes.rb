@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :product_parser_rules, only: %i[index new create]
     get :prices_chart, on: :member
   end
+  get 'show_screenshot', to: 'product_parser_rules#show_screenshot'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

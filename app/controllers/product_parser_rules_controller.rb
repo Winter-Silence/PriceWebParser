@@ -90,12 +90,18 @@ class ProductParserRulesController < ApplicationController
   def check
     parser = Parser::ProductPageParser.new(@product_parser_rule.url, timeout: @product_parser_rule.waits_timeout, cookies: @product_parser_rule.cookies)
     result = parser.get_value(@product_parser_rule.selector)
-    @data = if result.success?
-              result.value!
-            else
-              result.failure
-            end
+    if result.success?
+      @text = result.value!
+    else
+      @error_text, @file_name = result.failure
+    end
     render turbo_stream: turbo_stream.append('parse-result', partial: 'check')
+  end
+
+  def show_screenshot
+    file_name = params[:file_name]
+    file_path = File.join(Parser::ProductPageParser::SCREENSHOTS_PATH, file_name).to_s
+    send_file file_path, type: 'image/jpeg', disposition: 'inline'
   end
 
   private

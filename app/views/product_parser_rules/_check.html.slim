@@ -1,3 +1,8 @@
-= @data
+h4 Результат
+= @text || @error_text
+- if @file_name
+  p
+    p Скриншот
+    img src='#{show_screenshot_path(file_name: @file_name)}'
 
 

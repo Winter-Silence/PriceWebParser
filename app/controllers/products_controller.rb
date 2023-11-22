@@ -69,6 +69,7 @@ class ProductsController < ApplicationController
 
   def prices_chart
     grouped_by_rules = {}
+    period_lowest_price = Product.period_lowest_prices[@product.period_lowest_price].to_i.days.ago
     sql = "SELECT strftime('%d.%m.%Y', prices.created_at) as date_day, MIN(prices.value) as min_price, rules.url
             FROM products
             JOIN product_parser_rules rules ON products.id = rules.product_id
@@ -76,7 +77,7 @@ class ProductsController < ApplicationController
             WHERE products.id = ? AND prices.created_at BETWEEN ? AND date('now')
             GROUP BY date_day
             ORDER BY prices.created_at ASC"
-    Product.execute_sql(sql, @product.id, Product.period_lowest_prices[@product.period_lowest_price].to_i.days.ago).each do |record|
+    Product.execute_sql(sql, @product.id, period_lowest_price).each do |record|
       grouped_by_rules[record['url']] = {} if grouped_by_rules[record['url']].nil?
       grouped_by_rules[record['url']][record['date_day']] = record['min_price']
     end
@@ -85,7 +86,8 @@ class ProductsController < ApplicationController
       @data << { name: rule_url, data: rule_data}
     end
 
-    render turbo_stream: turbo_stream.append('prices-chart', partial: 'prices-chart')
+    render json: @data.chart_json
+    # render turbo_stream: turbo_stream.append('prices-chart', partial: 'prices-chart')
   end
 
   private
