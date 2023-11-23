@@ -16,7 +16,7 @@ namespace :parsers do
   task :take_screenshot, [:url, :timeout] => :environment do |_t, args|
     abort('url is blank') if args.url.blank?
 
-    parser = Parser::BaseParser.new(args.url, timeout: args.timeout)
+    parser = Parser::TestingParser.new(args.url, timeout: args.timeout&.to_f)
     screenshot_file_name = parser.take_screenshot.value!
     pp Rails.application.routes.url_helpers.show_screenshot_url(file_name: screenshot_file_name, only_path: true)
   end

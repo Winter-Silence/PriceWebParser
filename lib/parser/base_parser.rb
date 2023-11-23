@@ -11,11 +11,12 @@ module Parser
     # Нужно как-то фильтровать по заголовку товара, чтобы было именно то, по чему правило настроено. Например на озоне
     # на правило Karcher WzD3 вылезают Karcher WD2
     def initialize(url, timeout: nil, cookies: {})
-      @timeout = timeout || 5
+      @timeout = timeout
       @cookies = cookies
       @url = url
-      options = Selenium::WebDriver::Options.chrome(args: ['--headless=new', '--disable-blink-features=AutomationControlled',
-                                                           'user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'])
+      options = Selenium::WebDriver::Options.chrome
+      options.add_argument('--headless=new')
+      options.add_argument('--disable-blink-features=AutomationControlled')
       @driver = Webdriver::UserAgent.driver(browser: :chrome, orientation: :landscape, options:)
       set_cookies
 
