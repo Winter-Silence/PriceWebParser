@@ -17,7 +17,7 @@ class SinglePageRuleJob < ApplicationJob
     case parser.get_value(rule.selector)
     in Success(parsed_price)
       handle_success(rule, parsed_price)
-    in Failure([error_message, _screenshot])
+    in Failure[String =>  error_message, *]
       handle_failure(rule, error_message)
     end
   end

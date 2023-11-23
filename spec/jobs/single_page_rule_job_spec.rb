@@ -28,7 +28,7 @@ RSpec.describe SinglePageRuleJob, type: :job do
     end
 
     context 'when parsing fails' do
-      let(:stubbed_price_value_return) { Dry::Monads::Failure.new('Error message') }
+      let(:stubbed_price_value_return) { Dry::Monads::Failure.new(['Error message', 'screenshot_file_name']) }
       it 'calls handle_failure' do
         expect(job).to receive(:handle_failure).with(rule, 'Error message')
         job.send(:parse_and_process, rule)
