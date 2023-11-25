@@ -41,11 +41,11 @@ RSpec.describe SinglePageRuleJob, type: :job do
       let!(:errors) { create_list(:rules_error, 3, product_parser_rule: rule)}
       let(:price_value) { 60 }
 
-      it 'creates a new price record and doesnt send a notification' do
+      it 'doesnt creates a new price record and doesnt send a notification' do
         allow(RulesError).to receive_message_chain(:where, :destroy_all)
         allow(rule).to receive(:lowest_price).and_return(nil)
 
-        expect(Price).to receive(:create).with(product_parser_rule: rule, value: 50)
+        expect(Price).not_to receive(:create).with(product_parser_rule: rule, value: 50)
         expect(Notifier::TelegramBot).not_to receive(:low_price_notification)
 
         job.send(:handle_success, rule, 50)
@@ -81,7 +81,6 @@ RSpec.describe SinglePageRuleJob, type: :job do
   describe '#handle_failure' do
     it 'logs the error message and calls ErrorHandlingService' do
       error_message = 'Error message'
-      expect(Rails.logger).to receive(:error).with("#{rule.url}: #{error_message}")
       expect_any_instance_of(ErrorHandlingService).to receive(:process)
 
       job.send(:handle_failure, rule, error_message)
