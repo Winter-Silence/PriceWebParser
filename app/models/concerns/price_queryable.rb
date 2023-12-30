@@ -10,6 +10,12 @@ module PriceQueryable
       prices.where(created_at: since..).minimum(:value)
     end
 
+    def average_price(since: nil)
+      return if !since.nil? && !valid_date?(since)
+
+      prices.where(created_at: since..).average(:value)&.round
+    end
+
     def valid_date?(value)
       if value.is_a?(ActiveSupport::TimeWithZone) || value.is_a?(DateTime) ||
          begin

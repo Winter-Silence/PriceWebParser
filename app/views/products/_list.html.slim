@@ -2,9 +2,13 @@ table.table.table-bordered.table-striped.table-hover
   thead
     tr
       th scope="col" Название
-      th scope="col" Минимальная цена
+      th scope="col" Мин. цена за всё время
+      th scope="col" Мин. цена за период
+      th scope="col" Сред. цена за период
   tbody
     - @products.each do |product|
       tr
         td scope="col" = link_to product.title, product
         td = product.lowest_price
+        td = product.lowest_price(since: product.period_lowest_price_in_days&.ago)
+        td = product.average_price(since: product.period_lowest_price_in_days&.ago)

@@ -13,4 +13,8 @@ class Product < ApplicationRecord
                                'три месяца': 90,
                                'две недели': 14,
                                'три недели': 21 }
+
+  def period_lowest_price_in_days
+    self.class.period_lowest_prices[period_lowest_price]&.to_i&.days
+  end
 end

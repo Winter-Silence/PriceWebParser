@@ -88,14 +88,14 @@ namespace :puma do
 
     comment 'Starting Puma...'
     command %[
-    echo cd #{fetch(:puma_root_path)} && #{fetch(:puma_cmd)} -q -d -e #{fetch(:puma_env)} -b "unix://#{fetch(:puma_socket)}" #{puma_port_option} -S #{fetch(:puma_state)} --pidfile #{fetch(:puma_pid)} --control 'unix://#{fetch(:pumactl_socket)}' --redirect-stdout "#{fetch(:puma_stdout)}" --redirect-stderr "#{fetch(:puma_stderr)}"
+    echo cd #{fetch(:puma_root_path)} && #{fetch(:puma_cmd)} -q -e #{fetch(:puma_env)} -b "unix://#{fetch(:puma_socket)}" #{puma_port_option} -S #{fetch(:puma_state)} --pidfile #{fetch(:puma_pid)} --control 'unix://#{fetch(:pumactl_socket)}' --redirect-stdout "#{fetch(:puma_stdout)}" --redirect-stderr "#{fetch(:puma_stderr)}"
       if [ -e "#{fetch(:puma_pid)}"  ] && kill -0 "$(cat #{fetch(:puma_pid)})" 2> /dev/null; then
         echo 'Puma is already running!';
       else
         if [ -e "#{fetch(:puma_config)}" ]; then
           cd #{fetch(:puma_root_path)} && #{fetch(:puma_cmd)} -qe #{fetch(:puma_env)} -C #{fetch(:puma_config)}
         else
-          cd #{fetch(:puma_root_path)} && #{fetch(:puma_cmd)} -q -d -e #{fetch(:puma_env)} -b "unix://#{fetch(:puma_socket)}" #{puma_port_option} -S #{fetch(:puma_state)} --pidfile #{fetch(:puma_pid)} --control 'unix://#{fetch(:pumactl_socket)}' --redirect-stdout "#{fetch(:puma_stdout)}" --redirect-stderr "#{fetch(:puma_stderr)}"
+          cd #{fetch(:puma_root_path)} && #{fetch(:puma_cmd)} -q -e #{fetch(:puma_env)} -b "unix://#{fetch(:puma_socket)}" #{puma_port_option} -S #{fetch(:puma_state)} --pidfile #{fetch(:puma_pid)} --control 'unix://#{fetch(:pumactl_socket)}' --redirect-stdout "#{fetch(:puma_stdout)}" --redirect-stderr "#{fetch(:puma_stderr)}"
         fi
       fi
     ]
