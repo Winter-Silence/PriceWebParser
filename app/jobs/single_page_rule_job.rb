@@ -17,7 +17,7 @@ class SinglePageRuleJob < ApplicationJob
     case parser.get_value(rule.selector)
     in Success(parsed_price)
       handle_success(rule, parsed_price)
-    in Failure[String =>  error_message, *]
+    in Failure[String => error_message, *]
       handle_failure(rule, error_message)
     end
   end
@@ -44,7 +44,7 @@ class SinglePageRuleJob < ApplicationJob
   # Проверка, на сколько процентов уменьшилась цена
   def need_notification(product, price_value)
     date_begining_for_period_avg_price = product.period_lowest_price_in_days&.ago
-    average_price_by_period = product.average_price(since: date_begining_for_period_avg_price)
+    average_price_by_period = product.lowest_price(since: date_begining_for_period_avg_price)
 
     return false unless average_price_by_period
 

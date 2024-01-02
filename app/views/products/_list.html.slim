@@ -11,4 +11,3 @@ table.table.table-bordered.table-striped.table-hover
         td scope="col" = link_to product.title, product
         td = product.lowest_price
         td = product.lowest_price(since: product.period_lowest_price_in_days&.ago)
-        td = product.average_price(since: product.period_lowest_price_in_days&.ago)

@@ -97,21 +97,21 @@ RSpec.describe SinglePageRuleJob, type: :job do
   describe '#need_notification' do
     context 'when lowest price is not available' do
       it 'returns false' do
-        allow(rule.product).to receive(:average_price).and_return(nil)
+        allow(rule.product).to receive(:lowest_price).and_return(nil)
         expect(job.send(:need_notification, rule.product, 50)).to be_falsey
       end
     end
 
     context 'when price decrease percentage is less than 5%' do
       xit 'returns false' do
-        allow(rule.product).to receive(:average_price).and_return(100)
+        allow(rule.product).to receive(:lowest_price).and_return(100)
         expect(job.send(:need_notification, rule.product, 97)).to be_falsey
       end
     end
 
     context 'when price decrease percentage is equal to or greater than 5%' do
       it 'returns true' do
-        allow(rule.product).to receive(:average_price).and_return(100)
+        allow(rule.product).to receive(:lowest_price).and_return(100)
         expect(job.send(:need_notification, rule.product, 90)).to be_truthy
       end
     end
