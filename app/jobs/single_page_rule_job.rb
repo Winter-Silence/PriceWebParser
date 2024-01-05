@@ -27,9 +27,13 @@ class SinglePageRuleJob < ApplicationJob
 
     RulesError.where(product_parser_rule: rule).destroy_all
 
-    return unless need_notification(rule.product, price_value)
+    date_begining_for_period_min_price = rule.product.period_lowest_price_in_days&.ago
+    min_price_by_period = rule.product.lowest_price(since: date_begining_for_period_min_price)
 
-    create_price(rule, price_value)
+    create_price(rule, price_value) if rule.prices.blank? || price_value < min_price_by_period
+
+    return unless need_notification?(min_price_by_period, price_value)
+
     Notifier::TelegramBot.low_price_notification(rule, price_value)
   end
 
@@ -42,13 +46,10 @@ class SinglePageRuleJob < ApplicationJob
   end
 
   # Проверка, на сколько процентов уменьшилась цена
-  def need_notification(product, price_value)
-    date_begining_for_period_avg_price = product.period_lowest_price_in_days&.ago
-    average_price_by_period = product.lowest_price(since: date_begining_for_period_avg_price)
+  def need_notification?(min_price_by_period, price_value)
+    return false unless min_price_by_period
 
-    return false unless average_price_by_period
-
-    price_decrease_percentage = (average_price_by_period - price_value.to_f) / average_price_by_period * 100
+    price_decrease_percentage = (min_price_by_period - price_value.to_f) / min_price_by_period * 100
     price_decrease_percentage >= 5
   end
 end

@@ -41,11 +41,12 @@ RSpec.describe SinglePageRuleJob, type: :job do
       let!(:errors) { create_list(:rules_error, 3, product_parser_rule: rule)}
       let(:price_value) { 60 }
 
-      it 'doesnt creates a new price record and doesnt send a notification' do
+      it 'creates a new price record and doesnt send a notification' do
         allow(RulesError).to receive_message_chain(:where, :destroy_all)
         allow(rule).to receive(:lowest_price).and_return(nil)
+        allow(rule).to receive(:prices).and_return([])
 
-        expect(Price).not_to receive(:create).with(product_parser_rule: rule, value: 50)
+        expect(Price).to receive(:create).with(product_parser_rule: rule, value: 50)
         expect(Notifier::TelegramBot).not_to receive(:low_price_notification)
 
         job.send(:handle_success, rule, 50)
@@ -98,21 +99,21 @@ RSpec.describe SinglePageRuleJob, type: :job do
     context 'when lowest price is not available' do
       it 'returns false' do
         allow(rule.product).to receive(:lowest_price).and_return(nil)
-        expect(job.send(:need_notification, rule.product, 50)).to be_falsey
+        expect(job.send(:need_notification?, nil, 50)).to be_falsey
       end
     end
 
     context 'when price decrease percentage is less than 5%' do
       xit 'returns false' do
         allow(rule.product).to receive(:lowest_price).and_return(100)
-        expect(job.send(:need_notification, rule.product, 97)).to be_falsey
+        expect(job.send(:need_notification?, 100, 97)).to be_falsey
       end
     end
 
     context 'when price decrease percentage is equal to or greater than 5%' do
       it 'returns true' do
         allow(rule.product).to receive(:lowest_price).and_return(100)
-        expect(job.send(:need_notification, rule.product, 90)).to be_truthy
+        expect(job.send(:need_notification?, 100, 90)).to be_truthy
       end
     end
   end
