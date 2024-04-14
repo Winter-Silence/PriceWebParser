@@ -23,7 +23,7 @@ set :port, Rails.application.credentials.deployment[:port]
 set :deploy_to, Rails.application.credentials.deployment[:path]
 set :repository, 'git@github.com:Winter-Silence/PriceWebParser.git'
 set :branch, 'main'
-set :rbenv_path, '$HOME/.rbenv'
+# set :rbenv_path, '$HOME/.rbenv'
 set :bundler_path, Rails.application.credentials.deployment[:bundler_path]
 set :init_system, :systemd
 set :service_unit_path, Rails.application.credentials.deployment[:service_unit_path]
@@ -48,7 +48,7 @@ set :shared_files,
 # This task is the environment that is loaded for all remote run commands, such as
 # `mina deploy` or `mina rake`.
 task :remote_environment do
-  invoke :'rbenv:load'
+  invoke :'asdf:load'
 end
 
 # Put any custom commands you need to run at setup
@@ -121,6 +121,17 @@ namespace :puma do
       fi
     }
     command cmd
+  end
+end
+
+namespace :asdf do
+  task :load do
+    command %{export PATH="$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"}
+    command %{
+      source $HOME/.asdf/asdf.sh
+      source $HOME/.asdf/completions/asdf.bash
+    }
+    command %{asdf install}
   end
 end
 
