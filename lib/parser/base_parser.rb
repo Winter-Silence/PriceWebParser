@@ -17,6 +17,7 @@ module Parser
       options = Selenium::WebDriver::Options.chrome
       options.add_argument('--headless=new')
       options.add_argument('--disable-blink-features=AutomationControlled')
+      options.add_argument('--window-size=1920,1080')
       @driver = Webdriver::UserAgent.driver(browser: :chrome, orientation: :landscape, options:)
       set_cookies
 
@@ -27,6 +28,8 @@ module Parser
       load_page(selector)
 
       value = @driver.find_element(:css, selector).text.gsub(/[^\d.,]/, '').to_f.to_i
+      raise StandardError, 'неверное значение цены' if value < 10
+
       Success(value)
     rescue StandardError => e
       screenshot_file_name = yield take_screenshot
@@ -38,6 +41,7 @@ module Parser
     def take_screenshot
       FileUtils.mkdir_p(SCREENSHOTS_PATH)
       file_name = "#{Time.current.strftime('%d.%m-%Y_%H.%M.%S')}.png"
+      @driver.manage.window.resize_to(1024, 768)
       @driver.save_screenshot(File.join(SCREENSHOTS_PATH, file_name))
       Success(file_name)
     end
